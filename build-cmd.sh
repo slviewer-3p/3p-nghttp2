@@ -72,7 +72,7 @@ pushd "$top/nghttp2"
         ;;
 
         darwin*)
-            opts="${TARGET_OPTS:--arch $AUTOBUILD_CONFIGURE_ARCH $LL_BUILD_RELEASE}"
+            opts="${TARGET_OPTS:--arch $AUTOBUILD_CONFIGURE_ARCH ${LL_BUILD_RELEASE/-gdwarf-with-dsym/-gdwarf-2}}"
 
 ##          # Release configure and build
 ##          ./configure --enable-lib-only CFLAGS="$opts" CXXFLAGS="$opts"
@@ -81,7 +81,7 @@ pushd "$top/nghttp2"
 
             cmake . -DCMAKE_C_FLAGS:STRING="$opts" \
                 -DCMAKE_CXX_FLAGS:STRING="$opts" \
-                -DCMAKE_INSTALL_PREFIX="$(cygpath -m "$stage")"
+                -DCMAKE_INSTALL_PREFIX="$stage"
 
             cmake --build .
 
