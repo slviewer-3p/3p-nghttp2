@@ -124,10 +124,10 @@ pushd "$top/nghttp2"
             make
             make check
 
-            find . \( -name '*.a' -o -name '*.so*' \) -print
-
             mkdir -p "$stage/lib/release"
-            mv "$top/nghttp2/lib/release/libnghttp2.a" "$stage/lib/release/"
+            # ?! Unclear why this build tucks built libraries into a hidden
+            # .libs directory.
+            mv "$top/nghttp2/lib/.libs/libnghttp2.a" "$stage/lib/release/"
         ;;
     esac
     mkdir -p "$stage/LICENSES"
