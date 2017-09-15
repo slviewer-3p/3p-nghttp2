@@ -124,8 +124,10 @@ pushd "$top/nghttp2"
             make
             make check
 
+            find . \( -name '*.a' -o -name '*.so*' \) -print
+
             mkdir -p "$stage/lib/release"
-            mv "$top/nghttp2/lib/libnghttp2.a" "$stage/lib/release/"
+            mv "$top/nghttp2/lib/release/libnghttp2.a" "$stage/lib/release/"
         ;;
     esac
     mkdir -p "$stage/LICENSES"
