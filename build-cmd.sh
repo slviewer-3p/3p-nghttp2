@@ -64,11 +64,11 @@ pushd "$top/nghttp2"
                 -DCMAKE_CXX_FLAGS:STRING="$LL_BUILD_RELEASE" \
                 -DCMAKE_INSTALL_PREFIX="$(cygpath -m "$stage")"
 
-            cmake --build .
+            cmake --build . --config Release
 
             # Stage archives
             mkdir -p "${stage}/lib/release"
-            mv "$top/nghttp2/lib/nghttp2.lib" "${stage}"/lib/release/
+            mv "$top/nghttp2/lib/Release/nghttp2.lib" "${stage}"/lib/release/
         ;;
 
         darwin*)
@@ -83,7 +83,7 @@ pushd "$top/nghttp2"
                 -DCMAKE_CXX_FLAGS:STRING="$opts" \
                 -DCMAKE_INSTALL_PREFIX="$stage"
 
-            cmake --build .
+            cmake --build . --config Release
 
             mkdir -p "$stage/lib/release"
             mv "$top/nghttp2/lib"/libnghttp2*.dylib "$stage/lib/release/"
