@@ -72,7 +72,7 @@ pushd "$top/nghttp2"
         ;;
 
         darwin*)
-            opts="${TARGET_OPTS:--arch $AUTOBUILD_CONFIGURE_ARCH ${LL_BUILD_RELEASE/-gdwarf-with-dsym/-gdwarf-2}}"
+            opts="${TARGET_OPTS:--arch $AUTOBUILD_CONFIGURE_ARCH $LL_BUILD_RELEASE}"
 
 ##          # Release configure and build
 ##          ./configure --enable-lib-only CFLAGS="$opts" CXXFLAGS="$opts"
