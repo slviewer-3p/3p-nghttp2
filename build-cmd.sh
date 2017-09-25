@@ -68,7 +68,7 @@ pushd "$top/nghttp2"
 
             # Stage archives
             mkdir -p "${stage}/lib/release"
-            mv "$top/nghttp2/lib/Release/nghttp2.lib" "${stage}"/lib/release/
+            mv "$top/nghttp2/lib/Release"/nghttp2.* "${stage}"/lib/release/
         ;;
 
         darwin*)
