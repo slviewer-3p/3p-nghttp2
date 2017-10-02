@@ -72,7 +72,7 @@ pushd "$top/nghttp2"
         ;;
 
         darwin*)
-            opts="${TARGET_OPTS:--arch $AUTOBUILD_CONFIGURE_ARCH ${LL_BUILD_RELEASE/-gdwarf-with-dsym/-gdwarf-2}}"
+            opts="${TARGET_OPTS:--arch $AUTOBUILD_CONFIGURE_ARCH $LL_BUILD_RELEASE}"
 
 ##          # Release configure and build
 ##          ./configure --enable-lib-only CFLAGS="$opts" CXXFLAGS="$opts"
@@ -87,7 +87,18 @@ pushd "$top/nghttp2"
 
             mkdir -p "$stage/lib/release"
             mv "$top/nghttp2/lib"/libnghttp2*.dylib "$stage/lib/release/"
-            
+
+            # SL-807: fix_dylib_id doesn't really handle symlinks, even though
+            # it's coded to try to do so. Chase the multiple levels of
+            # indirection to find the real dylib.
+            pushd "$stage/lib/release"
+                dylib="libnghttp2.dylib"
+                while [ -L "$dylib" ]
+                do dylib="$(readlink "$dylib")"
+                done
+                fix_dylib_id "$dylib"
+            popd
+
 #            make distclean
         ;;
 
