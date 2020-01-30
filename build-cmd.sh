@@ -28,9 +28,7 @@ source_environment_tempfile="$stage/source_environment.sh"
 . "$source_environment_tempfile"
 
 NGHTTP2_VERSION_HEADER_DIR="$top/nghttp2/lib/includes/nghttp2"
-version="$(sed -n -E 's/#define NGHTTP2_VERSION "([^"]+)"/\1/p' "${NGHTTP2_VERSION_HEADER_DIR}/nghttp2ver.h" | tr -d '\r' )"
 build=${AUTOBUILD_BUILD_ID:=0}
-echo "${version}.${build}" > "${stage}/VERSION.txt"
 
 # Restore all .sos
 restore_sos ()
@@ -144,6 +142,10 @@ pushd "$top/nghttp2"
     mkdir -p "$stage/LICENSES"
     cp "$top/nghttp2/COPYING" "$stage/LICENSES/nghttp2.txt"
 popd
+
+# Must be done after the build.  nghttp2ver.h is created as part of the build.
+version="$(sed -n -E 's/#define NGHTTP2_VERSION "([^"]+)"/\1/p' "${NGHTTP2_VERSION_HEADER_DIR}/nghttp2ver.h" | tr -d '\r' )"
+echo "${version}.${build}" > "${stage}/VERSION.txt"
 
 mkdir -p "$stage/include/nghttp2"
 cp "$NGHTTP2_VERSION_HEADER_DIR"/*.h "$stage/include/nghttp2/"
