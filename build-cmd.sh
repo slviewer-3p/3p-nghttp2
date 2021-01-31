@@ -95,6 +95,14 @@ pushd "$top/nghttp2"
                 do dylib="$(readlink "$dylib")"
                 done
                 fix_dylib_id "$dylib"
+
+                CONFIG_FILE="$build_secrets_checkout/code-signing-osx/config.sh"
+                if [ -f "$CONFIG_FILE" ]; then
+                    source $CONFIG_FILE
+                    codesign --force --timestamp --sign "$APPLE_SIGNATURE" "$dylib"
+                else 
+                    echo "No config file found; skipping codesign."
+                fi
             popd
 
 #            make distclean
