@@ -136,15 +136,22 @@ pushd "$top/nghttp2"
                 export CPPFLAGS="$TARGET_CPPFLAGS"
             fi
 
+            cmake . -DCMAKE_C_FLAGS:STRING="$opts" \
+                -DCMAKE_CXX_FLAGS:STRING="$opts" \
+                -DCMAKE_INSTALL_PREFIX="$stage" \
+		-DENABLE_STATIC_LIB=On -DENABLE_SHARED_LIB=Off
+
+            cmake --build . --config Release
             # Release configure and build
-            ./configure --enable-lib-only CFLAGS="$opts" CXXFLAGS="$opts"
-            make
-            make check
+            #./configure --enable-lib-only CFLAGS="$opts" CXXFLAGS="$opts"
+            #make
+            #make check
 
             mkdir -p "$stage/lib/release"
             # ?! Unclear why this build tucks built libraries into a hidden
             # .libs directory.
-            mv "$top/nghttp2/lib/.libs/libnghttp2.a" "$stage/lib/release/"
+            cp "$top/nghttp2/lib/libnghttp2_static.a" "$stage/lib/release/"
+            cp "$top/nghttp2/lib/libnghttp2_static.a" "$stage/lib/release/libnghttp2.a"
         ;;
     esac
     mkdir -p "$stage/LICENSES"
